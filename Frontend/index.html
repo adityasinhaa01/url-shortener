@@ -35,9 +35,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        transition:
-          background 0.3s ease,
-          border 0.3s ease;
+        transition: background 0.3s ease, border 0.3s ease;
       }
 
       body {
@@ -60,17 +58,19 @@
         mask-image: radial-gradient(circle at center, black, transparent 80%);
       }
 
+      /* --- Navigation: Extreme Left/Right Logic --- */
       nav {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-between; /* Pushes content to extreme ends */
         align-items: center;
-        padding: 18px 8%;
+        padding: 18px 2%; /* Reduced from 8% for extreme edge feel */
         position: sticky;
         top: 0;
         z-index: 1000;
         background: var(--nav-bg);
         backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--border);
+        width: 100%;
       }
 
       .logo {
@@ -103,14 +103,9 @@
         letter-spacing: 1px;
       }
 
-      .nav-links a:hover {
-        color: var(--accent);
-      }
+      .nav-links a:hover { color: var(--accent); }
 
-      .dropdown {
-        position: relative;
-        cursor: pointer;
-      }
+      .dropdown { position: relative; cursor: pointer; }
       .dropdown-content {
         display: none;
         position: absolute;
@@ -123,13 +118,14 @@
         padding: 10px 0;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       }
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
+      .dropdown:hover .dropdown-content { display: block; }
       .dropdown-content a {
         padding: 12px 20px;
         display: block;
         font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        color: var(--text-main);
+        text-decoration: none;
       }
 
       .theme-toggle {
@@ -144,10 +140,11 @@
         font-weight: bold;
       }
 
+      /* --- Content Layout --- */
       .container {
         max-width: 1000px;
         margin: 0 auto;
-        padding: 80px 20px;
+        padding: 60px 20px;
       }
 
       .hero-header {
@@ -165,10 +162,10 @@
       }
 
       h1 {
-        font-size: 3.2rem;
+        font-size: clamp(2.2rem, 8vw, 3.2rem);
         font-weight: 800;
         letter-spacing: -2px;
-        line-height: 1;
+        line-height: 1.1;
         margin-bottom: 15px;
       }
 
@@ -177,6 +174,7 @@
         max-width: 600px;
         font-size: 1rem;
         margin-bottom: 40px;
+        line-height: 1.6;
       }
 
       .tool-card {
@@ -192,6 +190,7 @@
         background: rgba(0, 0, 0, 0.2);
         border: 1px solid var(--border);
         padding: 5px;
+        gap: 5px;
       }
 
       input {
@@ -203,6 +202,7 @@
         font-family: "JetBrains Mono", monospace;
         font-size: 1rem;
         outline: none;
+        width: 100%;
       }
 
       .execute-btn {
@@ -217,9 +217,7 @@
         letter-spacing: 1px;
       }
 
-      .execute-btn:hover {
-        background: var(--highlight);
-      }
+      .execute-btn:hover { background: var(--highlight); }
 
       #result-area {
         margin-top: 30px;
@@ -228,24 +226,16 @@
         display: none;
       }
 
-      .result-label {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.65rem;
-        color: var(--accent);
-        font-weight: 800;
-        margin-bottom: 15px;
-        display: block;
-      }
-
       #short-url {
         color: var(--text-main);
         text-decoration: none;
-        font-size: 1.5rem;
+        font-size: clamp(1rem, 4vw, 1.5rem);
         font-family: "JetBrains Mono", monospace;
         word-break: break-all;
         border-bottom: 2px solid var(--accent);
       }
 
+      /* --- Grid & Footer --- */
       .specs-grid {
         display: grid;
         grid-template-columns: 2fr 1fr;
@@ -256,14 +246,6 @@
       .spec-box {
         border: 1px solid var(--border);
         padding: 25px;
-      }
-
-      .spec-box h3 {
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        color: var(--text-dim);
-        margin-bottom: 15px;
-        letter-spacing: 1px;
       }
 
       .spec-list {
@@ -279,10 +261,6 @@
         border-bottom: 1px solid var(--border);
       }
 
-      .spec-list li span:last-child {
-        color: var(--accent);
-      }
-
       footer {
         margin-top: 80px;
         padding: 40px;
@@ -294,99 +272,20 @@
         letter-spacing: 2px;
       }
 
+      /* --- Responsive Mobile Styles --- */
       @media (max-width: 768px) {
-        .specs-grid {
-          grid-template-columns: 1fr;
-        }
-        h1 {
-          font-size: 2.2rem;
-        }
-      }
-
-      * {
-        max-width: 100%;
-      }
-
-      nav {
-        padding: 15px 5%;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
+        nav { padding: 15px 4%; }
+        .specs-grid { grid-template-columns: 1fr; }
+        .input-wrapper { flex-direction: column; background: transparent; border: none; }
+        input { background: rgba(0,0,0,0.2); border: 1px solid var(--border); margin-bottom: 10px; }
+        .execute-btn { width: 100%; padding: 18px; }
+        .tool-card { padding: 25px 15px; }
       }
 
       @media (max-width: 480px) {
-        .nav-right {
-          gap: 15px;
-        }
-        .nav-links {
-          gap: 15px;
-        }
-        .logo {
-          font-size: 1.1rem;
-        }
-      }
-
-      .container {
-        padding: 40px 20px;
-      }
-
-      h1 {
-        font-size: clamp(2rem, 8vw, 3.2rem);
-        line-height: 1.1;
-      }
-
-      .hero-header {
-        padding-left: 15px;
-        margin-bottom: 30px;
-      }
-
-      .tool-card {
-        padding: 25px 15px;
-      }
-
-      .input-wrapper {
-        flex-direction: column;
-        background: transparent;
-        border: none;
-        gap: 10px;
-      }
-
-      input {
-        background: rgba(0, 0, 0, 0.2);
-        border: 1px solid var(--border);
-        width: 100%;
-      }
-
-      [data-theme="light"] input {
-        background: #fff;
-      }
-
-      .execute-btn {
-        padding: 18px;
-        width: 100%;
-      }
-
-      #short-url {
-        font-size: 1.1rem;
-      }
-
-      @media (max-width: 768px) {
-        .specs-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .spec-box {
-          padding: 20px;
-        }
-
-        .spec-list li {
-          font-size: 0.7rem;
-        }
-      }
-
-      footer {
-        padding: 30px 10px;
-        font-size: 0.55rem;
+        nav { flex-direction: column; gap: 15px; text-align: center; }
+        .nav-right { flex-direction: column; gap: 10px; }
+        .logo { font-size: 1.2rem; }
       }
     </style>
   </head>
@@ -399,12 +298,8 @@
           <li class="dropdown">
             <a href="javascript:void(0)">Contact ▾</a>
             <div class="dropdown-content">
-              <a href="https://linkedin.com/in/adityasinha001" target="_blank"
-                >LinkedIn</a
-              >
-              <a href="https://github.com/adityasinhaa01" target="_blank"
-                >GitHub</a
-              >
+              <a href="https://linkedin.com/in/adityasinha001" target="_blank">LinkedIn</a>
+              <a href="https://github.com/adityasinhaa01" target="_blank">GitHub</a>
             </div>
           </li>
         </ul>
@@ -417,9 +312,7 @@
     <div class="container">
       <header class="hero-header">
         <div class="terminal-meta" id="timestamp">SESSION_INITIALIZING...</div>
-        <div class="terminal-meta">
-          ROOT_USER: ADITYA_P_SINHA // ACCESS: GRANTED
-        </div>
+        <div class="terminal-meta">ROOT_USER: ADITYA_P_SINHA // ACCESS: GRANTED</div>
         <h1>Short Links,<br />High Density.</h1>
         <p class="description">
           A high-performance URL encapsulation engine for the MERN stack.
@@ -430,45 +323,21 @@
       <section class="tool-card">
         <form id="url-form">
           <div class="input-wrapper">
-            <input
-              type="url"
-              id="original-url"
-              placeholder=">> INPUT_DESTINATION_URI"
-              required
-            />
-            <button type="submit" id="submit-btn" class="execute-btn">
-              Execute_Hash
-            </button>
+            <input type="url" id="original-url" placeholder=">> INPUT_DESTINATION_URI" required />
+            <button type="submit" id="submit-btn" class="execute-btn">Execute_Hash</button>
           </div>
         </form>
 
         <div id="result-area">
-          <span class="result-label"
-            >RECONSTRUCTION_COMPLETE // SECURE_LINK:</span
-          >
+          <span class="result-label" style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--accent); font-weight: 800; margin-bottom: 15px; display: block;">RECONSTRUCTION_COMPLETE // SECURE_LINK:</span>
           <a href="#" id="short-url" target="_blank"></a>
-          <button
-            onclick="copyUrl()"
-            style="
-              display: block;
-              margin-top: 15px;
-              background: transparent;
-              border: 1px solid var(--border);
-              color: var(--text-dim);
-              padding: 5px 10px;
-              font-family: &quot;JetBrains Mono&quot;;
-              cursor: pointer;
-              font-size: 0.6rem;
-            "
-          >
-            [ COPY_TO_CLIPBOARD ]
-          </button>
+          <button onclick="copyUrl()" style="display: block; margin-top: 15px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 8px 12px; font-family: 'JetBrains Mono'; cursor: pointer; font-size: 0.6rem;">[ COPY_TO_CLIPBOARD ]</button>
         </div>
       </section>
 
       <section class="specs-grid">
         <div class="spec-box">
-          <h3>System_Specifications</h3>
+          <h3 style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); margin-bottom: 15px;">System_Specifications</h3>
           <ul class="spec-list">
             <li>Core_Architecture <span>MERN Stack</span></li>
             <li>Environment <span>EndeavourOS / Linux</span></li>
@@ -477,21 +346,9 @@
           </ul>
         </div>
         <div class="spec-box" style="background: rgba(0, 112, 243, 0.03)">
-          <h3>Maintainer</h3>
-          <div style="font-weight: 800; margin-bottom: 10px">
-            Aditya P. Sinha
-          </div>
-          <a
-            href="https://github.com/adityasinhaa01/url-shortener"
-            target="_blank"
-            style="
-              color: var(--accent);
-              font-size: 0.7rem;
-              text-decoration: none;
-              font-family: &quot;JetBrains Mono&quot;;
-            "
-            >[ VIEW_GITHUB ]</a
-          >
+          <h3 style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); margin-bottom: 15px;">Maintainer</h3>
+          <div style="font-weight: 800; margin-bottom: 10px">Aditya P. Sinha</div>
+          <a href="https://github.com/adityasinhaa01/url-shortener" target="_blank" style="color: var(--accent); font-size: 0.7rem; text-decoration: none; font-family: 'JetBrains Mono';">[ VIEW_GITHUB ]</a>
         </div>
       </section>
     </div>
@@ -499,16 +356,13 @@
     <footer>&copy; 2026 SINHA_SYSTEMS_GLOBAL // CHOTULINK_PROTOCOL_v2.0</footer>
 
     <script>
-      // Clock
       function updateTime() {
         const now = new Date();
-        document.getElementById("timestamp").textContent =
-          `ACTIVE_SESSION: ${now.toString().split(" ").slice(0, 5).join(" ")}`;
+        document.getElementById("timestamp").textContent = `ACTIVE_SESSION: ${now.toString().split(" ").slice(0, 5).join(" ")}`;
       }
       setInterval(updateTime, 1000);
       updateTime();
 
-      // Theme Toggle
       function toggleTheme() {
         const body = document.documentElement;
         const btn = document.getElementById("themeBtn");
@@ -521,18 +375,15 @@
         }
       }
 
-      // URL Shortener Logic
       const form = document.getElementById("url-form");
       const submitBtn = document.getElementById("submit-btn");
       const resultArea = document.getElementById("result-area");
       const shortUrlElement = document.getElementById("short-url");
-
       const BACKEND_URL = "https://snip-b4dm.onrender.com";
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const originalUrl = document.getElementById("original-url").value;
-
         resultArea.style.display = "none";
         submitBtn.textContent = "HASHING...";
         submitBtn.disabled = true;
