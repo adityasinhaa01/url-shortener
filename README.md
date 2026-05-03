@@ -7,8 +7,6 @@
 ## ⚙️ System Specifications
 
 * **Core Architecture:** MERN Stack (MongoDB, Express, React, Node.js)
-* **Environment:** Optimized for EndeavourOS / Linux
-* **Hardware Profile:** HP Victus 15 / RTX 3050
 * **Network Node:** Render Cloud
 
 ---
