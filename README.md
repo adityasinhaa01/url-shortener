@@ -24,7 +24,8 @@
 
 ```bash
 ChotuLink/
-├── .gitignore                # Root level ignore rules (node_modules, .env, etc.)
+├── .gitignore 
+├── README.md                  # Root level ignore rules (node_modules, .env, etc.)
 ├── Backend/
 │   ├── controllers/
 │   │   └── url.js           # API logic for link generation
@@ -39,7 +40,7 @@ ChotuLink/
 │   └── package-lock.json    # Dependency lock file
 ├── Frontend/
 │   ├── index.html           # Main UI / Entry point (High-Density UI)
-│   └── README.md            # Frontend-specific documentation
+         # Frontend-specific documentation
 ```
 
 ---
