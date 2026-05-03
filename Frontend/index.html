@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinha.sh // Root Link Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --card: #0a0a0a;
+            --accent: #00e5ff;
+            --highlight: #ffff00; /* New Yellow Highlight */
+            --text-main: #e0e0e0;
+            --text-dim: #555555;
+            --border: #1a1a1a;
+            --terminal-red: #ff5555;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black, transparent 95%);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        nav {
+            border-bottom: 1px solid var(--border);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 5, 5, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .sys-status {
+            font-size: 0.7rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent);
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.75rem;
+            margin-left: 20px;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover { color: var(--text-main); }
+
+        .content-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .terminal-header {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .description {
+            color: var(--text-dim);
+            max-width: 700px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            font-size: 0.9rem;
+        }
+
+        .tool-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 30px;
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .tool-section::after {
+            content: "ID: URL_ENC_01";
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--bg);
+            padding: 0 10px;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 2px;
+            background: var(--border);
+            padding: 2px;
+        }
+
+        input {
+            flex: 1;
+            background: var(--bg);
+            border: none;
+            color: white;
+            padding: 18px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 0 35px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .result-area {
+            margin-top: 20px;
+            border: 1px dashed var(--highlight);
+            padding: 20px;
+            display: none;
+            background: rgba(255, 255, 0, 0.02);
+        }
+
+        #short-url {
+            color: var(--highlight);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            word-break: break-all;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.2);
+        }
+
+        #short-url:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .spec-box h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        .spec-list {
+            list-style: none;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .spec-list li {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .spec-list li span { color: var(--text-main); }
+
+        .dev-profile {
+            background: #0d0d0d;
+            border: 1px solid var(--border);
+            padding: 20px;
+        }
+
+        .github-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.75rem;
+            border: 1px solid var(--accent);
+            padding: 8px 12px;
+        }
+
+        .github-link:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .error-msg {
+            color: var(--terminal-red);
+            font-size: 0.7rem;
+            margin-top: 15px;
+            display: none;
+            background: rgba(255, 85, 85, 0.1);
+            padding: 10px;
+            border-left: 2px solid var(--terminal-red);
+        }
+
+        footer {
+            margin-top: 100px;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="sys-status">
+            <div class="status-dot"></div>
+            <span>SYSTEM: OPERATIONAL // PORT: 8002</span>
+        </div>
+        <div class="nav-links">
+            <a href="#core">Terminal</a>
+            <a href="#docs">Docs</a>
+            <a href="https://github.com/adityasinhaa01" target="_blank">Maintainer</a>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        
+        <header class="hero">
+            <div class="terminal-header" id="timestamp">LOADING_SESSION...</div>
+            <div class="terminal-header">USER: ADITYA_P_SINHA // ROOT_ACCESS: GRANTED</div>
+            <h1>Sinha.sh_Link_Shortener</h1>
+            <p class="description">
+                A high-performance URL redirection engine optimized for the MERN stack. 
+                Designed for architects who value precision over aesthetics.
+            </p>
+
+            <div class="tool-section" id="core">
+                <form id="url-form">
+                    <div class="input-group">
+                        <input type="url" id="original-url" placeholder=">> INPUT_SOURCE_URL" required>
+                        <button type="submit" id="submit-btn">Execute_Hash</button>
+                    </div>
+                </form>
+
+                <div class="result-area" id="result-area">
+                    <div style="font-size: 0.6rem; color: #ffff00; margin-bottom: 10px; font-weight: 800;">[SUCCESS] MAPPING_COMPLETE // URL_READY:</div>
+                    <a href="#" id="short-url" target="_blank"></a>
+                </div>
+
+                <div class="error-msg" id="error-msg">CRITICAL_ERROR: FAIL_TO_FETCH_RESOURCES // CHECK_RENDER_LOGS</div>
+            </div>
+        </header>
+
+        <section class="info-grid" id="docs">
+            <div class="spec-box">
+                <h3>Technical_Specifications</h3>
+                <ul class="spec-list">
+                    <li>Architecture <span>MERN Stack</span></li>
+                    <li>OS_Kernel <span>EndeavourOS / Linux</span></li>
+                    <li>Hardware <span>HP Victus / RTX 3050</span></li>
+                    <li>Deployment <span>Render Cloud</span></li>
+                </ul>
+            </div>
+
+            <div class="dev-profile">
+                <h4>System_Developer</h4>
+                <div style="font-size: 0.8rem; margin-bottom: 5px;">Aditya P. Sinha</div>
+                <a href="https://github.com/adityasinhaa01" target="_blank" class="github-link">VIEW_GITHUB_PROFILE</a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        &copy; 2026 SINHA_SYSTEMS_GLOBAL // NO_RIGHTS_RESERVED
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('timestamp').textContent = `CURRENT_SESSION: ${now.toString().split(' ').slice(0, 5).join(' ')}`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        const form = document.getElementById('url-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultArea = document.getElementById('result-area');
+        const shortUrlElement = document.getElementById('short-url');
+        const errorMsg = document.getElementById('error-msg');
+
+        const BACKEND_URL = 'https://snip-b4dm.onrender.com'; 
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const originalUrl = document.getElementById('original-url').value;
+            errorMsg.style.display = 'none';
+            resultArea.style.display = 'none';
+            submitBtn.textContent = 'HASHING...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/url`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: originalUrl })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    const shortId = data.shortId || data.id;
+                    const finalUrl = `${BACKEND_URL}/${shortId}`; 
+                    shortUrlElement.href = finalUrl;
+                    shortUrlElement.textContent = finalUrl;
+                    resultArea.style.display = 'block';
+                } else { throw new Error(); }
+            } catch (error) {
+                errorMsg.style.display = 'block';
+            } finally {
+                submitBtn.textContent = 'Execute_Hash';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
